@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>محول العملات</title>
+    <link rel="stylesheet" href="styles/belal22.css" />
+</head>
+<style>
+    body{
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+    header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+</style>
+<body>
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="container">
+        <h1>محول العملات</h1>
+        <div class="form-group">
+            <label for="amount">المبلغ:</label>
+            <input type="number" id="amount" placeholder="أدخل المبلغ" />
+        </div>
+        <div class="form-group">
+            <label for="from-currency">من:</label>
+            <div class="select-wrapper">
+                <select id="from-currency">
+                    <!-- العملات ستُملأ ديناميكياً -->
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="to-currency">إلى:</label>
+            <div class="select-wrapper">
+                <select id="to-currency">
+                    <!-- العملات ستُملأ ديناميكياً -->
+                </select>
+            </div>
+        </div>
+        <button id="convert-btn">تحويل</button>
+        <div id="result">
+            <p>المبلغ المحول: <span id="converted-amount">0</span> <span id="currency-symbol"></span></p>
+            <p id="exchange-rate"></p>
+        </div>
+    </div>
+
+    <div id="result">
+      <p>المبلغ المحول: <span id="converted-amount">0</span> <span id="currency-symbol"></span></p>
+      <p id="exchange-rate"></p>
+      <div id="history-actions" style="margin-top: 15px;">
+          <button id="clear-history" style="background-color: #ef4444;">مسح السجل</button>
+          <button id="export-history" style="background-color: #10b981;">تصدير السجل</button>
+      </div>
+  </div>
+  <script>
+    
+
+const currencyFlags = {
+    USD: "us",
+    EUR: "eu",
+    GBP: "gb",
+    SAR: "sa",
+    AED: "ae",
+    JPY: "jp",
+    CNY: "cn",
+    INR: "in",
+    EGP: "eg",
+    YER: "ye",
+    TRY: "tr",
+    KWD: "kw",
+    QAR: "qa",
+    BHD: "bh",
+    OMR: "om"
+};
+
+// تحميل العملات في القائمة
+async function loadCurrencies() {
+    const response = await fetch('https://api.frankfurter.app/currencies');
+    const currencies = await response.json();
+
+    const fromSelect = document.getElementById('from-currency');
+    const toSelect = document.getElementById('to-currency');
+
+    for (const [code, name] of Object.entries(currencies)) {
+        const emojiFlag = getFlagEmoji(code); // رموز أعلام افتراضية (ليست دقيقة دائماً)
+
+        const optionFrom = document.createElement('option');
+        optionFrom.value = code;
+        optionFrom.textContent = `${emojiFlag} ${code} - ${name}`;
+        fromSelect.appendChild(optionFrom);
+
+        const optionTo = document.createElement('option');
+        optionTo.value = code;
+        optionTo.textContent = `${emojiFlag} ${code} - ${name}`;
+        toSelect.appendChild(optionTo);
+    }
+
+    fromSelect.value = 'USD';
+    toSelect.value = 'SAR';
+}
+
+
+loadCurrencies();
+
+document.getElementById('convert-btn').addEventListener('click', async () => {
+    const amount = document.getElementById('amount').value;
+    const fromCurrency = document.getElementById('from-currency').value;
+    const toCurrency = document.getElementById('to-currency').value;
+
+    if (amount === '' || isNaN(amount)) {
+        alert('يرجى إدخال مبلغ صالح');
+        return;
+    }
+
+    if (fromCurrency === toCurrency) {
+        alert('يرجى اختيار عملتين مختلفتين');
+        return;
+    }
+
+    const url = `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCurrency}&to=${toCurrency}`;
+
+    try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const rate = data.rates[toCurrency];
+
+        document.getElementById('converted-amount').textContent = rate.toFixed(2);
+        document.getElementById('currency-symbol').textContent = toCurrency;
+        document.getElementById('exchange-rate').textContent = `سعر الصرف: 1 ${fromCurrency} = ${(rate / amount).toFixed(4)} ${toCurrency}`;
+
+        // حفظ في localStorage
+        saveToHistory({
+            from: fromCurrency,
+            to: toCurrency,
+            amount,
+            result: rate.toFixed(2),
+            date: new Date().toLocaleString()
+        });
+
+    } catch (error) {
+        alert('حدث خطأ أثناء التحويل. تأكد من اتصالك بالإنترنت.');
+    }
+});
+
+// حفظ التحويل في localStorage
+function saveToHistory(entry) {
+    let history = JSON.parse(localStorage.getItem("conversionHistory")) || [];
+    history.unshift(entry); // أضف إلى البداية
+    history = history.slice(0, 5); // نحتفظ بـ 5 عمليات فقط
+    localStorage.setItem("conversionHistory", JSON.stringify(history));
+    showHistory();
+}
+
+// عرض السجل
+function showHistory() {
+    const resultDiv = document.getElementById('result');
+    const history = JSON.parse(localStorage.getItem("conversionHistory")) || [];
+
+    if (history.length > 0) {
+        const historyHTML = history.map(entry => `
+            <p style="font-size: 14px; margin: 5px 0;">
+                ${entry.date}: ${entry.amount} ${entry.from} ⟶ ${entry.result} ${entry.to}
+            </p>
+        `).join("");
+        resultDiv.innerHTML += `<div style="margin-top:10px; border-top:1px solid #ddd; padding-top:10px;">
+            <strong>آخر التحويلات:</strong>${historyHTML}
+        </div>`;
+    }
+}
+
+// عرض السجل عند التحميل
+showHistory();
+
+
+
+
+// زر مسح السجل
+document.getElementById('clear-history').addEventListener('click', () => {
+    localStorage.removeItem("conversionHistory");
+    document.getElementById('result').innerHTML = `
+        <p>المبلغ المحول: <span id="converted-amount">0</span> <span id="currency-symbol"></span></p>
+        <p id="exchange-rate"></p>
+        <div id="history-actions" style="margin-top: 15px;">
+            <button id="clear-history" style="background-color: #ef4444;">مسح السجل</button>
+            <button id="export-history" style="background-color: #10b981;">تصدير السجل</button>
+        </div>
+    `;
+});
+
+// زر تصدير السجل كملف نصي
+document.getElementById('export-history').addEventListener('click', () => {
+    const history = JSON.parse(localStorage.getItem("conversionHistory")) || [];
+    if (history.length === 0) {
+        alert("لا يوجد سجل لتحويله!");
+        return;
+    }
+
+    let content = "سجل تحويل العملات:\n\n";
+    history.forEach(entry => {
+        content += `${entry.date}: ${entry.amount} ${entry.from} ⟶ ${entry.result} ${entry.to}\n`;
+    });
+
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = "conversion_history.txt";
+    a.click();
+
+    URL.revokeObjectURL(url);
+});
+
+
+function getFlagEmoji(currencyCode) {
+    const countryMap = {
+        USD: 'US',
+        EUR: 'EU',
+        SAR: 'SA',
+        AED: 'AE',
+        GBP: 'GB',
+        JPY: 'JP',
+        CNY: 'CN',
+        INR: 'IN',
+        EGP: 'EG',
+        YER: 'YE',
+        TRY: 'TR',
+        KWD: 'KW',
+        QAR: 'QA',
+        BHD: 'BH',
+        OMR: 'OM'
+    };
+
+    const countryCode = countryMap[currencyCode] || 'UN'; // إذا ما وجد رمز الدولة
+    return countryCode
+        .toUpperCase()
+        .replace(/./g, char => String.fromCodePoint(127397 + char.charCodeAt()));
+}
+
+  </script>
+
+    <script src="script/belal2.js"></script>
+</body>
+</html>

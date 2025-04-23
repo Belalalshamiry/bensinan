@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محول درجات الحرارة</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #9ab2ff, #6f73e1);
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .container:hover {
+            transform: scale(1.05);
+        }
+        
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+        
+        input, select {
+            padding: 12px;
+            margin: 10px 0;
+            width: 100%;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        
+        button {
+            padding: 12px;
+            width: 100%;
+            background: linear-gradient(135deg, #1c52b0, #0d39bb);
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: linear-gradient(135deg, #ff5f6d, #ff8e53);
+        }
+        
+        .error {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+            font-weight: bold;
+        }
+        header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+        
+    </style>
+</head>
+<body>
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="container">
+        <h1>🔄 محول درجات الحرارة</h1>
+        <label for="temperature">📏 أدخل درجة الحرارة:</label>
+        <input type="number" id="temperature" placeholder="درجة الحرارة" step="any">
+        
+        <label for="unit">⚖️ اختر وحدة:</label>
+        <select id="unit">
+            <option value="celsius">🌡️ سيلسيوس</option>
+            <option value="fahrenheit">🔥 فهرنهايت</option>
+            <option value="kelvin">❄️ كيلفن</option>
+        </select>
+        
+        <button onclick="convert()">🔄 تحويل</button>
+        <div id="error-message" class="error"></div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        function convert() {
+            let tempInput = document.getElementById("temperature");
+            let temp = parseFloat(tempInput.value);
+            let unit = document.getElementById("unit").value;
+            let resultDiv = document.getElementById("result");
+            let errorDiv = document.getElementById("error-message");
+            
+            resultDiv.innerHTML = "";
+            errorDiv.innerHTML = "";
+            
+            if (isNaN(temp)) {
+                errorDiv.innerHTML = "❌ من فضلك أدخل قيمة صحيحة";
+                return;
+            }
+            
+            if (unit === 'kelvin' && temp < 0) {
+                errorDiv.innerHTML = "❌ درجة الحرارة بالكلفن لا يمكن أن تكون سالبة";
+                return;
+            }
+            
+            let result = "";
+            
+            switch (unit) {
+                case 'celsius':
+                    result = `درجة الحرارة في فهرنهايت: ${(temp * 9/5 + 32).toFixed(2)} °F`;
+                    result += `<br>درجة الحرارة في كيلفن: ${(temp + 273.15).toFixed(2)} K`;
+                    break;
+                case 'fahrenheit':
+                    result = `درجة الحرارة في سيلسيوس: ${((temp - 32) * 5/9).toFixed(2)} °C`;
+                    result += `<br>درجة الحرارة في كيلفن: ${((temp - 32) * 5/9 + 273.15).toFixed(2)} K`;
+                    break;
+                case 'kelvin':
+                    result = `درجة الحرارة في سيلسيوس: ${(temp - 273.15).toFixed(2)} °C`;
+                    result += `<br>درجة الحرارة في فهرنهايت: ${((temp - 273.15) * 9/5 + 32).toFixed(2)} °F`;
+                    break;
+            }
+            
+            resultDiv.innerHTML = result;
+        }
+    </script>
+</body>
+</html>

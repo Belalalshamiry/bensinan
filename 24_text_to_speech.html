@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مؤقت بومودورو</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+#timer {
+    font-size: 48px;
+    margin: 20px 0;
+    font-weight: bold;
+    color: #ff6347;
+}
+
+#status {
+    font-size: 20px;
+    color: #666;
+}
+
+button {
+    background-color: #ff6347;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: #d9534f;
+}
+header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+}
+
+</style>
+<body>
+
+  <header>
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+    <div class="container">
+        <h1>مؤقت بومودورو</h1>
+        <p id="status">Work Session</p>
+        <div id="timer">25:00</div>
+        <button id="start">ابدأ</button>
+        <button id="reset">إعادة التعيين</button>
+    </div>
+    <script src="script/script.js"></script>
+
+    <script>
+      const workTime = 25 * 60; // 25 minutes
+const breakTime = 5 * 60; // 5 minutes
+let timeLeft = workTime;
+let isRunning = false;
+let isWorkSession = true;
+let timer;
+
+const display = document.getElementById("timer");
+const startBtn = document.getElementById("start");
+const resetBtn = document.getElementById("reset");
+const statusText = document.getElementById("status");
+const audio = new Audio("alarm.mp3"); // Add an alarm sound
+
+function updateDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    display.textContent = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+    statusText.textContent = isWorkSession ? "Work Session" : "Break Time";
+}
+
+function startTimer() {
+    if (!isRunning) {
+        isRunning = true;
+        timer = setInterval(() => {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateDisplay();
+            } else {
+                audio.play(); // Play alarm sound when time is up
+                isWorkSession = !isWorkSession;
+                timeLeft = isWorkSession ? workTime : breakTime;
+                updateDisplay();
+            }
+        }, 1000);
+    }
+}
+
+function resetTimer() {
+    clearInterval(timer);
+    isRunning = false;
+    isWorkSession = true;
+    timeLeft = workTime;
+    updateDisplay();
+}
+
+function customizeTimer(workMinutes, breakMinutes) {
+    workTime = workMinutes * 60;
+    breakTime = breakMinutes * 60;
+    resetTimer();
+}
+
+startBtn.addEventListener("click", startTimer);
+resetBtn.addEventListener("click", resetTimer);
+
+updateDisplay();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Drawing App</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+      /* General Styling */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #161628;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container {
+    text-align: center;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 650px;
+}
+
+h1 {
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+/* Styling the tools section */
+.tools {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tools label {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+.tools input[type="color"],
+.tools input[type="range"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.tools button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.tools button:hover {
+    background-color: #45a049;
+}
+
+/* Canvas Styling */
+canvas {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: crosshair;
+}
+header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="container">
+        <h1>Simple Drawing App</h1>
+        
+        <div class="tools">
+            <label for="brushColor">Brush Color:</label>
+            <input type="color" id="brushColor" value="#000000">
+            
+            <label for="brushSize">Brush Size:</label>
+            <input type="range" id="brushSize" min="1" max="10" value="3">
+            
+            <button onclick="clearCanvas()">Clear Canvas</button>
+        </div>
+        
+        <canvas id="drawingCanvas" width="600" height="400"></canvas>
+    </div>
+<script>
+  // Get the canvas and context
+const canvas = document.getElementById('drawingCanvas');
+const ctx = canvas.getContext('2d');
+
+// Variables to track mouse position and drawing state
+let drawing = false;
+let x = 0;
+let y = 0;
+let brushColor = "#000000"; // Default color is black
+let brushSize = 3; // Default brush size
+
+// Set up event listeners for canvas
+canvas.addEventListener('mousedown', (e) => {
+    drawing = true;
+    x = e.offsetX;
+    y = e.offsetY;
+});
+
+canvas.addEventListener('mousemove', (e) => {
+    if (drawing) {
+        const newX = e.offsetX;
+        const newY = e.offsetY;
+
+        // Set brush color and size dynamically based on input
+        ctx.strokeStyle = brushColor;
+        ctx.lineWidth = brushSize;
+
+        // Draw line from last position to new position
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(newX, newY);
+        ctx.stroke();
+
+        // Update position
+        x = newX;
+        y = newY;
+    }
+});
+
+canvas.addEventListener('mouseup', () => {
+    drawing = false;
+});
+
+// Clear the canvas
+function clearCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+// Update brush color and size based on user input
+document.getElementById('brushColor').addEventListener('input', (e) => {
+    brushColor = e.target.value;
+});
+
+document.getElementById('brushSize').addEventListener('input', (e) => {
+    brushSize = e.target.value;
+});
+
+</script>
+    <script src="script/script.js"></script>
+</body>
+</html>

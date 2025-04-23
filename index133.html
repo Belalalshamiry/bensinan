@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>العروض الخاصة - بن سنان</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #f9f9f9;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 2rem;
+    }
+    h1 {
+      text-align: center;
+      color: #b8860b;
+      margin-bottom: 2rem;
+    }
+    .offer-img {
+      width: 100%;
+      border-radius: 8px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 1.5s ease, transform 1.5s ease;
+    }
+    .offer-img.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .offer-row {
+      margin-bottom: 3rem;
+    }
+    .countdown {
+      font-size: 1.2rem;
+      color: #dc3545;
+      font-weight: bold;
+    }
+
+    header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+  </style>
+</head>
+<body>
+  <header>
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+
+  <h1>🔥 العروض الخاصة من بن سنان 🔥</h1>
+  <div class="container">
+
+    <!-- عرض 1 -->
+    <div class="row offer-row align-items-center">
+      <div class="col-md-4">
+        <img src="imags/s2.jpg" class="offer-img" id="img1" alt="عرض 1">
+      </div>
+      <div class="col-md-5">
+        <h5>سامسونج نوت 10 عادي</h5>
+        <p>ذاكرة 256 / الرام 8 / رسمي نظامي</p>
+        <p><del>14400</del> <mark>15700</mark></p>
+      </div>
+      <div class="col-md-3 text-center">
+        <p class="countdown" id="timer1">25:00</p>
+        <a href="login.html" class="btn btn-warning">اطلب الآن</a>
+      </div>
+    </div>
+
+    <!-- عرض 2 -->
+    <div class="row offer-row align-items-center">
+      <div class="col-md-4">
+        <img src="imags/s3.jpg" class="offer-img" id="img2" alt="عرض 2">
+      </div>
+      <div class="col-md-5">
+        <h5>آيفون 11</h5>
+        <p>ذاكرة 256 / بطارية 85% / رسمي نظامين</p>
+        <p><del>14400</del> <mark>15700</mark></p>
+      </div>
+      <div class="col-md-3 text-center">
+        <p class="countdown" id="timer2">25:00</p>
+        <a href="login.html" class="btn btn-warning">اطلب الآن</a>
+      </div>
+    </div>
+
+    <!-- عرض 3 -->
+    <div class="row offer-row align-items-center">
+      <div class="col-md-4">
+        <img src="imags/s4.jpg" class="offer-img" id="img3" alt="عرض 3">
+      </div>
+      <div class="col-md-5">
+        <h5>آيفون 13 برو</h5>
+        <p>ذاكرة 512 / بطارية 90% / رسمي نظامين</p>
+        <p><del>380000</del> <mark>345000</mark></p>
+      </div>
+      <div class="col-md-3 text-center">
+        <p class="countdown" id="timer3">25:00</p>
+        <a href="login.html" class="btn btn-warning">اطلب الآن</a>
+      </div>
+    </div>
+
+    <!-- عرض 4 -->
+    <div class="row offer-row align-items-center">
+      <div class="col-md-4">
+        <img src="imags/s5.jpg" class="offer-img" id="img4" alt="عرض 4">
+      </div>
+      <div class="col-md-5">
+        <h5>سامسونج S21</h5>
+        <p>ذاكرة 128 / الرام 12 / مضمون سنة</p>
+        <p><del>165000</del> <mark>139000</mark></p>
+      </div>
+      <div class="col-md-3 text-center">
+        <p class="countdown" id="timer4">25:00</p>
+        <a href="login.html" class="btn btn-warning">اطلب الآن</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // تأثير ظهور الصور عند تحميل الصفحة
+    window.addEventListener('load', () => {
+      document.querySelectorAll('.offer-img').forEach((img, i) => {
+        setTimeout(() => img.classList.add('visible'), i * 300);
+      });
+    });
+
+    // مؤقتات برومودو لكل عرض
+    const countdowns = ["timer1", "timer2", "timer3", "timer4"];
+
+    countdowns.forEach(id => {
+      let total = 25 * 60;
+      const display = document.getElementById(id);
+      setInterval(() => {
+        const mins = Math.floor(total / 60);
+        const secs = total % 60;
+        display.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+        if (total > 0) total--;
+      }, 1000);
+    });
+  </script>
+</body>
+</html>

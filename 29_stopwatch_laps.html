@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+ 
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.slider-container {
+    position: relative;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 15px;
+    overflow: hidden;
+    background: linear-gradient(to bottom right, #f0f0f0, #f8f8f8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border-radius: 7%  5px  solid black;
+    height: 90%;
+}
+
+.slider {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.slide {
+    width: 100%;
+    height: auto;
+    transition: opacity 1s ease-in-out;
+}
+
+button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.prev {
+    left: 15px;
+}
+
+.next {
+    right: 15px;
+}
+
+.dots-container {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.dot:hover {
+    background-color: #717171;
+}
+
+.active {
+    background-color: #333;
+}
+header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+}
+
+    </style>
+</head>
+<body>
+  <header>
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+    <div class="slider-container">
+        <div class="slider">
+            <img src="imags/s10.jpg" alt="Image 1" class="slide">
+            <img src="imags/s1.jpg" alt="Image 2" class="slide">
+            <img src="imags/s1.jpg" alt="Image 3" class="slide">
+            <img src="imags/s1.jpg" alt="Image 3" class="slide">
+            <img src="imags/s1jpg" alt="Image 3" class="slide">
+        </div>
+        <!-- Previous and Next buttons -->
+        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
+        <button class="next" onclick="moveSlide(1)">&#10095;</button>
+        <!-- Dots navigation -->
+        <div class="dots-container">
+            <span class="dot" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+        </div>
+    </div>
+
+    <script src="script/script.js"></script>
+    <script>
+      let currentIndex = 0;
+console.log("i : "+currentIndex);
+function showSlide(index) {
+    // console.log("index : "+index);
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+// console.log("totalSilder : "+totalSlides);
+    if (index >= totalSlides) {
+        currentIndex = 0;
+    } else if (index < 0) {
+        currentIndex = totalSlides - 1;
+    } else {
+        currentIndex = index;
+    }
+
+    const slider = document.querySelector('.slider');
+    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+    // Update active dot
+    const dots = document.querySelectorAll('.dot');
+    dots.forEach(dot => dot.classList.remove('active'));
+    dots[currentIndex].classList.add('active');
+}
+
+function moveSlide(step) {
+    showSlide(currentIndex + step);
+}
+
+function currentSlide(index) {
+    showSlide(index);
+}
+
+setInterval(() => {
+    moveSlide(1);
+}, 3000); // Change image every 3 seconds
+
+// Initially show the first slide
+showSlide(currentIndex);
+
+    </script>
+</body>
+</html>

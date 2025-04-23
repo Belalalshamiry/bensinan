@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>متجر بن سنان</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f8f9fa;
+    }
+    header, footer {
+      background-color: #222;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+    }
+    .product-card img {
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      display: none;
+      z-index: 9999;
+    }
+    .cart-icon {
+      position: relative;
+    }
+    .cart-icon .badge {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+    }
+    .filter-section {
+      margin-bottom: 20px;
+    }
+    header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>بن سنان للإلكترونيات</h1>
+    <div class="d-flex justify-content-between align-items-center px-3">
+   
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+      <div class="cart-icon">
+        <button class="btn btn-warning position-relative" onclick="showCart()">
+          🛒 السلة <span class="badge bg-danger" id="cart-count">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container my-4">
+    <div class="filter-section row">
+      <div class="col-md-6">
+        <select id="typeFilter" class="form-select">
+          <option value="all">كل الأنواع</option>
+          <option value="samsung">Samsung</option>
+          <option value="iphone">iPhone</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <select id="priceFilter" class="form-select">
+          <option value="all">كل الأسعار</option>
+          <option value="0-1000">أقل من 1000</option>
+          <option value="1000-2000">1000 - 2000</option>
+          <option value="2000+">أكثر من 2000</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row" id="product-list">
+      <!-- المنتجات سيتم عرضها ديناميكيًا -->
+    </div>
+  </main>
+
+  <div class="notification" id="notification"></div>
+
+  <footer>
+    <p>جميع الحقوق محفوظة &copy; 2025</p>
+  </footer>
+
+  <script>
+    const products = [
+
+      { id: "imags/s1.jpg", name: "Samsung S21", price: 1200, type: "samsung", img: "imags/s12.jpg", desc: "هاتف سامسونج بتقنية حديثة." },
+      { id: "imags/s11.jpg", name: "iPhone 13", price: 2500, type: "iphone", img: "imags/s14.jpg", desc: "أحدث إصدار من آيفون." },
+      { id: "imags/s12.jpg", name: "Samsung A32", price: 950, type: "samsung", img: "imags/s18.jpg", desc: "هاتف اقتصادي من سامسونج." },
+      { id: "imags/s1.jpg", name: "Samsung S21", price: 15000, type: "samsung", img: "imags/s22.jpg", desc: "هاتف سامسونج بتقنية حديثة." },
+      { id: "imags/s11.jpg", name: "iPhone 13", price: 25000, type: "iphone", img: "imags/s24.jpg", desc: "أحدث إصدار من آيفون." },
+      { id: "imags/s12.jpg", name: "Samsung A32", price: 9500, type: "samsung", img: "imags/s21.jpg", desc: "هاتف اقتصادي من سامسونج." },
+    ];
+
+    const user = JSON.parse(localStorage.getItem('user')) || { email: 'guest' };
+    const cartKey = `cart_${user.email}`;
+
+    function renderProducts() {
+      const container = document.getElementById('product-list');
+      container.innerHTML = '';
+      const typeVal = document.getElementById('typeFilter').value;
+      const priceVal = document.getElementById('priceFilter').value;
+
+      let filtered = [...products];
+      if (typeVal !== 'all') filtered = filtered.filter(p => p.type === typeVal);
+
+      if (priceVal !== 'all') {
+        filtered = filtered.filter(p => {
+          if (priceVal === '0-1000') return p.price < 1000;
+          if (priceVal === '1000-2000') return p.price >= 1000 && p.price <= 2000;
+          if (priceVal === '2000+') return p.price > 2000;
+        });
+      }
+
+      filtered.forEach(product => {
+        const col = document.createElement('div');
+        col.className = 'col-md-4 mb-3';
+        col.innerHTML = `
+          <div class="card product-card">
+            <img src="${product.img}" class="card-img-top" onclick="showDetails('${product.id}')">
+            <div class="card-body">
+              <h5>${product.name}</h5>
+              <p>${product.price} ريال</p>
+              <button class="btn btn-primary" onclick="addToCart('${product.id}')">أضف للسلة</button>
+            </div>
+          </div>
+        `;
+        container.appendChild(col);
+      });
+    }
+
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+      const item = cart.find(i => i.id === id);
+      if (item) item.quantity += 1;
+      else cart.push({ id: id, name: product.name, price: product.price, quantity: 1 });
+      localStorage.setItem(cartKey, JSON.stringify(cart));
+      showNotification('تمت الإضافة إلى السلة ✅');
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.getElementById('cart-count').textContent = total;
+    }
+
+    function showCart() {
+      const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+      if (cart.length === 0) return alert('السلة فارغة');
+      let msg = '🛒 محتوى السلة:\n';
+      cart.forEach(item => {
+        msg += `${item.name} × ${item.quantity} = ${item.price * item.quantity} ريال\n`;
+      });
+      alert(msg);
+    }
+
+    function showNotification(msg) {
+      const n = document.getElementById('notification');
+      n.textContent = msg;
+      n.style.display = 'block';
+      setTimeout(() => { n.style.display = 'none'; }, 2500);
+    }
+
+    function showDetails(id) {
+      const product = products.find(p => p.id === id);
+      const details = `\n🖼️ المنتج: ${product.name}\n📄 الوصف: ${product.desc}\n💰 السعر: ${product.price} ريال`;
+      alert(details);
+    }
+
+    document.getElementById('typeFilter').addEventListener('change', renderProducts);
+    document.getElementById('priceFilter').addEventListener('change', renderProducts);
+
+    renderProducts();
+    updateCartCount();
+  </script>
+</body>
+</html>

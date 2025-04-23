@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Checker</title>
+    <link rel="stylesheet" href="style/style.css">
+
+    <style>
+      /* styles.css */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 450px;
+}
+
+h1, h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: #66cc66;
+}
+
+button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+p {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #333;
+    animation: fadeIn 1s ease-in-out;
+}
+
+.success {
+    color: green;
+}
+
+.failure {
+    color: red;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: #f2f2f2;
+    margin: 5px 0;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+select {
+    margin-bottom: 20px;
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="container">
+        <h1>تحقق من كلمة أو عبارة Palindrome</h1>
+        
+        <!-- قائمة اللغات -->
+        <label for="language">اختر اللغة:</label>
+        <select id="language" onchange="changeLanguage()">
+            <option value="ar">العربية</option>
+            <option value="en">English</option>
+            <option value="es">Español</option>
+            <option value="fr">Français</option>
+        </select>
+        
+        <input type="text" id="inputText" placeholder="أدخل كلمة أو عبارة">
+        <button onclick="checkPalindrome()">تحقق</button>
+        
+        <!-- وقت التحقق -->
+        <p id="timer">الوقت المستغرق: 0 ثانية</p>
+        
+        <!-- نتيجة الفحص -->
+        <p id="result"></p>
+        
+        <!-- تاريخ الكلمات المدخلة -->
+        <h3>الكلمات المدخلة الأخيرة:</h3>
+        <ul id="history"></ul>
+
+        <!-- زر تصدير النتائج -->
+        <button onclick="exportResults()">تصدير النتائج</button>
+    </div>
+
+
+    <script>
+      // script.js
+let history = [];
+let timerInterval;
+let startTime;
+
+function changeLanguage() {
+    const language = document.getElementById('language').value;
+    if (language === 'en') {
+        document.querySelector('h1').textContent = "Palindrome Checker";
+        document.querySelector('button').textContent = "Check";
+        document.querySelector('label').textContent = "Choose Language:";
+        document.querySelector('h3').textContent = "Recent Inputs:";
+        document.querySelector('#timer').textContent = "Time taken: 0 seconds";
+    } else if (language === 'es') {
+        document.querySelector('h1').textContent = "Verificador de Palíndromos";
+        document.querySelector('button').textContent = "Comprobar";
+        document.querySelector('label').textContent = "Elija el idioma:";
+        document.querySelector('h3').textContent = "Entradas recientes:";
+        document.querySelector('#timer').textContent = "Tiempo transcurrido: 0 segundos";
+    } else if (language === 'fr') {
+        document.querySelector('h1').textContent = "Vérificateur de Palindrome";
+        document.querySelector('button').textContent = "Vérifier";
+        document.querySelector('label').textContent = "Choisir la langue:";
+        document.querySelector('h3').textContent = "Entrées récentes:";
+        document.querySelector('#timer').textContent = "Temps écoulé: 0 secondes";
+    } else {
+        document.querySelector('h1').textContent = "تحقق من كلمة أو عبارة Palindrome";
+        document.querySelector('button').textContent = "تحقق";
+        document.querySelector('label').textContent = "اختر اللغة:";
+        document.querySelector('h3').textContent = "الكلمات المدخلة الأخيرة:";
+        document.querySelector('#timer').textContent = "الوقت المستغرق: 0 ثانية";
+    }
+}
+
+function startTimer() {
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+        document.getElementById('timer').textContent = `الوقت المستغرق: ${elapsedTime} ثانية`;
+    }, 1000);
+}
+
+function stopTimer() {
+    clearInterval(timerInterval);
+}
+
+function checkPalindrome() {
+    startTimer();
+    const inputText = document.getElementById('inputText').value;
+    const cleanedStr = inputText.replace(/[^A-Za-z0-9]/g, '').toLowerCase();
+
+    const resultElement = document.getElementById('result');
+
+    // تحقق مما إذا كانت الكلمة أو العبارة Palindrome
+    if (cleanedStr === cleanedStr.split('').reverse().join('')) {
+        resultElement.textContent = `'${inputText}' هي Palindrome!`;
+        resultElement.className = 'success';
+    } else {
+        resultElement.textContent = `'${inputText}' ليست Palindrome.`;
+        resultElement.className = 'failure';
+    }
+
+    stopTimer();
+
+    // إضافة إلى تاريخ المدخلات
+    addHistory(inputText);
+}
+
+function addHistory(inputText) {
+    if (history.length >= 5) {
+        history.shift(); // إزالة أقدم عنصر إذا تجاوز العدد 5
+    }
+    history.push(inputText);
+
+    const historyElement = document.getElementById('history');
+    historyElement.innerHTML = '';
+    history.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = item;
+        historyElement.appendChild(li);
+    });
+}
+
+function exportResults() {
+    const inputText = document.getElementById('inputText').value;
+    const resultText = document.getElementById('result').textContent;
+    
+    const fileContent = `الكلمة المدخلة: ${inputText}\nالنتيجة: ${resultText}\nالوقت المستغرق: ${document.getElementById('timer').textContent}\n`;
+
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'palindrome_result.txt';
+    link.click();
+}
+
+    </script>
+    <script src="script/script.js"></script>
+</body>
+</html>

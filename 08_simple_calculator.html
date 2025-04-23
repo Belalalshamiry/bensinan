@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الاختبار</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+      /* إعادة تعيين الحواف والهامش */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f4f8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    direction: rtl; 
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.quiz-container, #end-screen {
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    display: none;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#timer {
+    font-size: 18px;
+    color: #e74c3c;
+    margin-bottom: 20px;
+}
+
+#question {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+#options button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px;
+    margin: 8px;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#options button:hover {
+    background-color: #2980b9;
+}
+
+#score-container {
+    margin-top: 20px;
+}
+
+#next-btn {
+    padding: 12px;
+    background-color: #2ecc71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#next-btn:hover {
+    background-color: #27ae60;
+}
+
+#end-screen {
+    display: block;
+}
+
+.hidden {
+    display: none;
+}
+
+/* تأثيرات عند الإجابة */
+.correct {
+    background-color: #2ecc71 !important; /* اللون الأخضر للإجابة الصحيحة */
+}
+
+.incorrect {
+    background-color: #e74c3c !important; /* اللون الأحمر للإجابة الخاطئة */
+}
+header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="quiz-container" id="quiz-container">
+        <h1>تطبيق الاختبار</h1>
+        <div id="timer">
+            <p>الوقت المتبقي: <span id="time">30</span> ثانية</p>
+        </div>
+        <div id="question-container">
+            <p id="question"></p>
+            <div id="options">
+                <button class="option" onclick="checkAnswer(0)">الخيار 1</button>
+                <button class="option" onclick="checkAnswer(1)">الخيار 2</button>
+                <button class="option" onclick="checkAnswer(2)">الخيار 3</button>
+                <button class="option" onclick="checkAnswer(3)">الخيار 4</button>
+            </div>
+        </div>
+        <div id="score-container">
+            <p>الدرجة: <span id="score">0</span></p>
+            <button id="next-btn" onclick="nextQuestion()">السؤال التالي</button>
+        </div>
+    </div>
+
+    <div id="end-screen" class="hidden">
+        <h2>تم الانتهاء من الاختبار!</h2>
+        <p>درجتك النهائية: <span id="final-score"></span></p>
+        <button onclick="restartQuiz()">إعادة بدء الاختبار</button>
+    </div>
+
+    <script>
+      const questions = [
+    {
+        question: "ما هي عاصمة فرنسا؟",
+        options: ["برلين", "مدريد", "باريس", "روما"],
+        correct: 2
+    },
+    {
+        question: "ما هو أكبر كوكب في نظامنا الشمسي؟",
+        options: ["الأرض", "المريخ", "المشتري", "زحل"],
+        correct: 2
+    },
+    {
+        question: "ما هو حاصل جمع 2 + 2؟",
+        options: ["3", "4", "5", "6"],
+        correct: 1
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+let timer = 30;
+let timerInterval;
+let answered = false; // لتحديد إذا تم الإجابة أم لا
+
+function loadQuestion() {
+    const questionData = questions[currentQuestion];
+    document.getElementById("question").innerText = questionData.question;
+    const buttons = document.querySelectorAll(".option");
+    buttons.forEach((button, index) => {
+        button.innerText = questionData.options[index];
+        button.classList.remove("correct", "incorrect"); // إزالة التأثيرات من الإجابات السابقة
+        button.disabled = false; // تفعيل الأزرار مرة أخرى
+    });
+    answered = false; // إعادة تعيين حالة الإجابة
+}
+
+function checkAnswer(selectedOption) {
+    if (answered) return; // إذا كانت الإجابة قد تمت بالفعل، لا يتم السماح بالإجابة مرة أخرى
+
+    const correctAnswer = questions[currentQuestion].correct;
+    const buttons = document.querySelectorAll(".option");
+
+    if (selectedOption === correctAnswer) {
+        buttons[selectedOption].classList.add("correct"); // إضافة التأثير الأخضر
+        score++;
+        document.getElementById("score").innerText = score;
+    } else {
+        buttons[selectedOption].classList.add("incorrect"); // إضافة التأثير الأحمر
+        buttons[correctAnswer].classList.add("correct"); // تمييز الإجابة الصحيحة باللون الأخضر
+    }
+
+    // تعطيل جميع الأزرار بعد الإجابة
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+
+    answered = true; // تم الإجابة على السؤال
+}
+
+function nextQuestion() {
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+        resetTimer();
+    } else {
+        endQuiz();
+    }
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        timer--;
+        document.getElementById("time").innerText = timer;
+        if (timer <= 0) {
+            clearInterval(timerInterval);
+            endQuiz();
+        }
+    }, 1000);
+}
+
+function resetTimer() {
+    timer = 30;
+    document.getElementById("time").innerText = timer;
+    clearInterval(timerInterval);
+    startTimer();
+}
+
+function endQuiz() {
+    clearInterval(timerInterval);
+    document.getElementById("quiz-container").style.display = "none";
+    document.getElementById("end-screen").style.display = "block";
+    document.getElementById("final-score").innerText = score;
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    document.getElementById("score").innerText = score;
+    document.getElementById("quiz-container").style.display = "block";
+    document.getElementById("end-screen").style.display = "none";
+    loadQuestion();
+    resetTimer();
+}
+
+window.onload = function() {
+    document.getElementById("quiz-container").style.display = "block";
+    loadQuestion();
+    startTimer();
+};
+
+    </script>
+
+    <script src="script/script.js"></script>
+</body>
+</html>

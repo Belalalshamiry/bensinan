@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+      * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #5d31cd;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .todo-container {
+    width: 350px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #4CAF50;
+  }
+  
+  .todo-input-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  #new-task, #task-due-date, #task-duration {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  #new-task {
+    width: 40%;
+  }
+  
+  #task-due-date {
+    width: 40%;
+  }
+  
+  #task-duration {
+    width: 15%;
+  }
+  
+  #add-task-btn {
+    padding: 8px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  #add-task-btn:hover {
+    background-color: #45a049;
+  }
+  
+  .todo-item {
+    background-color: #fafafa;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: move;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .todo-item.dragging {
+    opacity: 0.5;
+    transform: scale(1.05);
+  }
+  
+  .todo-item.over {
+    background-color: #e0e0e0;
+  }
+  
+  .todo-item:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .todo-item .task-actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  button {
+    padding: 5px 10px;
+    font-size: 12px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  button:hover {
+    background-color: #d32f2f;
+  }
+
+
+  /* التنسيقات السابقة */
+.todo-item.being-edited {
+    border: 2px solid #ffa500;  /* لون مميز للمهمة قيد التعديل */
+    background-color: #fff8e1;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+
+  /* التنسيقات السابقة */
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 10px;
+    text-align: center;
+  }
+  
+  button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  .todo-item.being-edited {
+    border: 2px solid #ffa500;
+    background-color: #fff8e1;
+  }
+  /* التنسيقات السابقة */
+
+#complete-edit-btn {
+    margin-top: 10px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  #complete-edit-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  
+  header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+    </style>
+</head>
+<body>
+  <header>
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+    <div class="todo-container">
+        <h2>قائمة المهام</h2>
+        <div class="todo-input-container">
+          <input type="text" id="new-task" placeholder="أدخل مهمة جديدة..." />
+          <input type="datetime-local" id="task-due-date" />
+          <input type="number" id="task-duration" placeholder="المدة (دقائق)" />
+          <button id="add-task-btn">إضافة مهمة</button>
+          <button id="complete-edit-btn" disabled>إتمام التعديل</button> <!-- زر إتمام التعديل -->
+        </div>
+        <div id="error-message" class="error-message"></div> <!-- لعرض الرسائل التوضيحية هنا -->
+        <ul id="todo-list">
+          <!-- المهام ستكون هنا -->
+        </ul>
+      </div>
+      
+      
+      <script>
+        const todoList = document.getElementById('todo-list');
+const addTaskButton = document.getElementById('add-task-btn');
+const newTaskInput = document.getElementById('new-task');
+const taskDueDateInput = document.getElementById('task-due-date');
+const taskDurationInput = document.getElementById('task-duration');
+const errorMessage = document.getElementById('error-message');
+const completeEditButton = document.getElementById('complete-edit-btn'); // زر إتمام التعديل
+
+let isEditing = false;  // حالة لتتبع ما إذا كانت المهمة قيد التعديل
+let currentTaskToEdit = null; // لتتبع المهمة التي يتم تعديلها
+
+// حفظ المهام في التخزين المحلي
+const saveTodoList = () => {
+  const todoItems = [...todoList.children].map(item => ({
+    text: item.querySelector('.task-text').textContent,
+    dueDate: item.querySelector('.due-date').textContent,
+    duration: item.querySelector('.task-duration').textContent,
+  }));
+  localStorage.setItem('todoList', JSON.stringify(todoItems));
+};
+
+// تحميل المهام من التخزين المحلي
+const loadTodoList = () => {
+  const savedList = localStorage.getItem('todoList');
+  if (savedList) {
+    const tasks = JSON.parse(savedList);
+    tasks.forEach(task => {
+      createTask(task.text, task.dueDate, task.duration);
+    });
+  }
+};
+
+// إنشاء مهمة جديدة
+const createTask = (taskText, taskDueDate, taskDuration) => {
+  const li = document.createElement('li');
+  li.classList.add('todo-item');
+  li.setAttribute('draggable', 'true');
+
+  li.innerHTML = `
+    <span class="task-text">${taskText}</span><br>
+    <span class="due-date">موعد التنفيذ: ${taskDueDate}</span><br>
+    <span class="task-duration">المدة: ${taskDuration} دقائق</span>
+    <div class="task-actions">
+      <button class="edit-task-btn">تعديل</button>
+      <button class="delete-task-btn">حذف</button>
+    </div>
+  `;
+
+  // إضافة الأحداث لحذف وتعديل المهمة
+  li.querySelector('.delete-task-btn').addEventListener('click', () => {
+    li.remove();
+    saveTodoList();
+  });
+
+  li.querySelector('.edit-task-btn').addEventListener('click', () => {
+    if (isEditing) {
+      showErrorMessage("يجب عليك إتمام التعديل على المهمة الحالية أولاً.");
+      return;
+    }
+
+    // ضبط الحالة على التعديل
+    isEditing = true;
+    currentTaskToEdit = li; // حفظ المهمة التي يتم تعديلها
+
+    // عرض القيم الحالية في الحقول ليتم تعديلها
+    newTaskInput.value = taskText;
+    taskDueDateInput.value = taskDueDate;
+    taskDurationInput.value = taskDuration;
+
+    // تفعيل زر إتمام التعديل
+    completeEditButton.disabled = false;
+
+    // تعطيل أزرار التعديل والحذف للمهمة قيد التعديل
+    li.querySelector('.edit-task-btn').disabled = true;
+    li.querySelector('.delete-task-btn').disabled = true;
+  });
+
+  todoList.appendChild(li);
+  saveTodoList();
+};
+
+// إضافة مهمة جديدة عند الضغط على الزر
+const addNewTask = () => {
+  if (isEditing) {
+    showErrorMessage("يجب عليك إتمام التعديل على المهمة الحالية أولاً.");
+    return;
+  }
+
+  const taskText = newTaskInput.value.trim();
+  const taskDueDate = taskDueDateInput.value;
+  const taskDuration = taskDurationInput.value.trim();
+
+  // تحقق من أن التاريخ في المستقبل
+  if (!taskDueDate || new Date(taskDueDate) <= new Date()) {
+    showErrorMessage("تاريخ التنفيذ يجب أن يكون في المستقبل.");
+    return;
+  }
+
+  if (!taskText || !taskDuration) {
+    showErrorMessage("يجب إدخال نص المهمة ومدة التنفيذ.");
+    return;
+  }
+
+  // إذا كانت المدخلات صحيحة، نقوم بإنشاء المهمة
+  createTask(taskText, taskDueDate, taskDuration);
+  newTaskInput.value = '';
+  taskDueDateInput.value = '';
+  taskDurationInput.value = '';
+  errorMessage.textContent = '';  // إزالة رسالة الخطأ بعد إضافة المهمة بنجاح
+};
+
+// إتمام التعديل على المهمة
+const completeEdit = () => {
+  const taskText = newTaskInput.value.trim();
+  const taskDueDate = taskDueDateInput.value;
+  const taskDuration = taskDurationInput.value.trim();
+
+  // تحقق من أن التاريخ في المستقبل
+  if (!taskDueDate || new Date(taskDueDate) <= new Date()) {
+    showErrorMessage("تاريخ التنفيذ يجب أن يكون في المستقبل.");
+    return;
+  }
+
+  if (!taskText || !taskDuration) {
+    showErrorMessage("يجب إدخال نص المهمة ومدة التنفيذ.");
+    return;
+  }
+
+  // تحديث المهمة الحالية بالتعديلات
+  currentTaskToEdit.querySelector('.task-text').textContent = taskText;
+  currentTaskToEdit.querySelector('.due-date').textContent = `موعد التنفيذ: ${taskDueDate}`;
+  currentTaskToEdit.querySelector('.task-duration').textContent = `المدة: ${taskDuration} دقائق`;
+
+  // إعادة تعيين الحالة
+  currentTaskToEdit.querySelector('.edit-task-btn').disabled = false;
+  currentTaskToEdit.querySelector('.delete-task-btn').disabled = false;
+  currentTaskToEdit = null;
+
+  // إزالة الحقول الخاصة بالتعديل
+  newTaskInput.value = '';
+  taskDueDateInput.value = '';
+  taskDurationInput.value = '';
+  isEditing = false;
+  completeEditButton.disabled = true;  // تعطيل زر إتمام التعديل بعد إتمام التعديل
+  errorMessage.textContent = '';  // إزالة رسالة الخطأ بعد إتمام التعديل
+};
+
+// عرض رسالة الخطأ
+const showErrorMessage = (message) => {
+  errorMessage.textContent = message;
+};
+
+// إضافة حدث عند الضغط على زر "إضافة مهمة"
+addTaskButton.addEventListener('click', addNewTask);
+
+// إضافة حدث عند الضغط على "Enter" داخل حقل النص
+newTaskInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') {
+    addNewTask();
+  }
+});
+
+// إضافة حدث عند الضغط على زر "إتمام التعديل"
+completeEditButton.addEventListener('click', completeEdit);
+
+// تحميل المهام من التخزين المحلي عند تحميل الصفحة
+window.addEventListener('load', () => {
+  loadTodoList();
+});
+
+      </script>
+      <script src="script/script.js"></script>
+</body>
+</html>

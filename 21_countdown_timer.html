@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق الطقس</title>
+    <link rel="stylesheet" href="style/style.css">
+    <!-- تضمين مكتبة خرائط جوجل -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_GOOGLE_MAPS_API_KEY&callback=initMap" async defer></script>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
+    background: linear-gradient(to right, #00c6ff, #0072ff);
+}
+
+.weather-container {
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    transition: all 0.3s ease;
+}
+
+.weather-container:hover {
+    transform: translateY(-5px);
+}
+
+h1 {
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #333;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.search-container {
+    margin-bottom: 20px;
+}
+
+input {
+    width: 70%;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+}
+
+button {
+    padding: 12px;
+    width: 25%;
+    border-radius: 25px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+#weather-info {
+    margin-top: 20px;
+}
+
+#weather-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 15px;
+}
+
+h2 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+}
+
+p {
+    font-size: 16px;
+    color: #555;
+    margin: 8px 0;
+}
+
+#footer {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #333;
+}
+
+#footer a {
+    text-decoration: none;
+    color: #0072ff;
+}
+
+#footer a:hover {
+    text-decoration: underline;
+}
+#map {
+    margin-top: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+</style>
+</head>
+<body>
+
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="weather-container">
+        <h1>تطبيق الطقس</h1>
+        <div class="search-container">
+            <input type="text" id="city" placeholder="أدخل المدينة">
+            <button id="search-btn">بحث</button>
+            <button id="location-btn">استخدام الموقع الحالي</button>
+        </div>
+        <div id="weather-info">
+            <img id="weather-icon" src="" alt="حالة الطقس">
+            <h2 id="city-name"></h2>
+            <p id="temperature"></p>
+            <p id="description"></p>
+            <p id="humidity"></p>
+            <p id="wind-speed"></p>
+        </div>
+        <div id="map" style="height: 400px; width: 100%; margin-top: 20px;"></div>
+        <div id="footer">
+            <p>تم التطوير بواسطة <a href="#">مطور الويب</a></p>
+        </div>
+    </div>
+    <script>
+      document.getElementById('search-btn').addEventListener('click', getWeather);
+document.getElementById('location-btn').addEventListener('click', getLocationWeather);
+
+let map;
+
+async function getWeather() {
+    const city = document.getElementById('city').value;
+    const apiKey = '02a19419c576fbb17f28e067a24221d5'; // مفتاح الـ API الذي زودتني به
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric&lang=ar`;
+
+    console.log('إجراء طلب الـ API للمدينة:', city); // سجل الطلب
+
+    try {
+        const response = await fetch(url);
+        
+        console.log('استجابة الخادم:', response); // سجل استجابة الخادم
+        
+        if (!response.ok) {
+            throw new Error('فشل في الاتصال بالخادم');
+        }
+
+        const data = await response.json();
+        console.log('البيانات المسترجعة:', data); // سجل البيانات المسترجعة
+
+        if (data.cod === '404') {
+            alert('المدينة غير موجودة');
+        } else if (data.cod !== 200) {
+            throw new Error('حدث خطأ غير معروف');
+        } else {
+            document.getElementById('city-name').textContent = `${data.name}, ${data.sys.country}`;
+            document.getElementById('temperature').textContent = `الحرارة: ${data.main.temp}°C`;
+            document.getElementById('description').textContent = `الوصف: ${data.weather[0].description}`;
+            document.getElementById('humidity').textContent = `الرطوبة: ${data.main.humidity}%`;
+            document.getElementById('wind-speed').textContent = `سرعة الرياح: ${data.wind.speed} متر/ث`;
+
+            const iconCode = data.weather[0].icon;
+            document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${iconCode}.png`;
+
+            initMap(data.coord.lat, data.coord.lon);
+        }
+    } catch (error) {
+        console.error('خطأ في جلب البيانات:', error);
+        alert(`حدث خطأ أثناء جلب البيانات: ${error.message}`);
+    }
+}
+
+function getLocationWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async function(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            const apiKey = '02a19419c576fbb17f28e067a24221d5'; // مفتاح الـ API الذي زودتني به
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=ar`;
+
+            console.log('إجراء طلب الـ API للموقع الجغرافي:', lat, lon); // سجل الطلب
+
+            try {
+                const response = await fetch(url);
+                
+                console.log('استجابة الخادم للموقع الجغرافي:', response); // سجل استجابة الخادم
+
+                if (!response.ok) {
+                    throw new Error('فشل في الاتصال بالخادم');
+                }
+
+                const data = await response.json();
+                console.log('البيانات المسترجعة للموقع الجغرافي:', data); // سجل البيانات المسترجعة
+
+                document.getElementById('city-name').textContent = `${data.name}, ${data.sys.country}`;
+                document.getElementById('temperature').textContent = `الحرارة: ${data.main.temp}°C`;
+                document.getElementById('description').textContent = `الوصف: ${data.weather[0].description}`;
+                document.getElementById('humidity').textContent = `الرطوبة: ${data.main.humidity}%`;
+                document.getElementById('wind-speed').textContent = `سرعة الرياح: ${data.wind.speed} متر/ث`;
+
+                const iconCode = data.weather[0].icon;
+                document.getElementById('weather-icon').src = `https://openweathermap.org/img/wn/${iconCode}.png`;
+
+                initMap(lat, lon);
+            } catch (error) {
+                console.error('خطأ في جلب البيانات:', error);
+                alert(`حدث خطأ أثناء جلب البيانات: ${error.message}`);
+            }
+        });
+    } else {
+        alert("الميزة غير مدعومة في متصفحك.");
+    }
+}
+
+function initMap(lat, lon) {
+    const location = { lat: lat, lng: lon };
+    if (!map) {
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: location,
+            zoom: 10,
+        });
+    }
+    new google.maps.Marker({
+        position: location,
+        map: map,
+    });
+}
+
+    </script>
+    <script src="script/script.js"></script>
+</body>
+</html>

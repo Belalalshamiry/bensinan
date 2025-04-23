@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة الإكرامية</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    color: #333;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    width: 350px;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.container:hover {
+    transform: scale(1.05);
+}
+
+h1 {
+    font-size: 26px;
+    color: #0277bd;
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 12px 0 6px;
+    font-weight: bold;
+    color: #0277bd;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #0277bd;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+input:focus {
+    border-color: #0288d1;
+}
+
+button {
+    background-color: #0288d1;
+    color: #fff;
+    padding: 14px;
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #0277bd;
+}
+
+h2, h3 {
+    margin-top: 20px;
+    color: #333;
+    font-size: 18px;
+}
+
+h3 {
+    font-size: 16px;
+    color: #01579b;
+}
+
+header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+    </style>
+</head>
+<body>
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="container">
+        <h1>حاسبة الإكرامية</h1>
+        
+        <label for="billAmount">مبلغ الفاتورة:</label>
+        <input type="number" id="billAmount" placeholder="أدخل مبلغ الفاتورة">
+
+        <label for="tipPercentage">نسبة الإكرامية (%):</label>
+        <input type="number" id="tipPercentage" placeholder="أدخل نسبة الإكرامية">
+
+        <label for="numberOfPeople">عدد الأشخاص:</label>
+        <input type="number" id="numberOfPeople" placeholder="أدخل عدد الأشخاص" value="1">
+
+        <button onclick="calculateTip()">احسب الإكرامية</button>
+
+        <h2>الإكرامية: <span id="tipAmount">0</span> ريال يمني</h2>
+        <h3>الإكرامية لكل شخص: <span id="tipPerPerson">0</span> ريال يمني</h3>
+    </div>
+<script>
+  function calculateTip() {
+    // الحصول على المدخلات من المستخدم
+    const billAmount = parseFloat(document.getElementById('billAmount').value);
+    const tipPercentage = parseFloat(document.getElementById('tipPercentage').value);
+    const numberOfPeople = parseInt(document.getElementById('numberOfPeople').value);
+
+    // التحقق من صحة المدخلات
+    if (isNaN(billAmount) || isNaN(tipPercentage) || isNaN(numberOfPeople) || billAmount <= 0 || tipPercentage < 0 || numberOfPeople <= 0) {
+        alert("الرجاء إدخال قيم صحيحة.");
+        return;
+    }
+
+    // حساب الإكرامية
+    const totalTip = (billAmount * tipPercentage) / 100;
+    const tipPerPerson = totalTip / numberOfPeople;
+
+    // عرض النتيجة للمستخدم
+    document.getElementById('tipAmount').textContent = totalTip.toFixed(2);
+    document.getElementById('tipPerPerson').textContent = tipPerPerson.toFixed(2);
+}
+
+</script>
+    <script src="script/script.js"></script>
+</body>
+</html>

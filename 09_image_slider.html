@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Random Background Image Loader</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style/style.css">
+  <style>
+    /* styles.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Cairo', sans-serif;
+    background-size: cover;
+    background-position: center;
+    flex-direction: column;
+    justify-content: space-around;
+    transition: background-image 0.5s ease-in-out, background-color 0.5s ease-in-out;
+  }
+  
+  body.light-mode {
+    background-color: #f5f5f5;
+    color: #333;
+  }
+  
+  body.light-mode h1, body.light-mode p {
+    color: #333;
+  }
+  
+  .content {
+    text-align: center;
+    max-width: 600px;
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: opacity 0.5s ease-in-out, background-color 0.3s ease-in-out;
+  }
+  
+  h1 {
+    font-size: 3em;
+    margin: 0;
+    padding: 10px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  }
+  
+  p {
+    font-size: 1.2em;
+    margin: 20px 0;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin: 10px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
+  button:focus {
+    outline: none;
+  }
+  
+  .theme-toggle {
+    margin-top: 20px;
+  }
+  
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 2em;
+    }
+  
+    p {
+      font-size: 1em;
+    }
+  
+    button {
+      font-size: 1em;
+      padding: 8px 16px;
+    }
+  }
+  
+  header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+  </style>
+</head>
+<body>
+  <header>
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+  <div class="content">
+    <h1 id="greeting"></h1>
+    <p>تغير صورة الخلفية في كل مرة يتم فيها تحميل الصفحة أو عندما تضغط على الزر!</p>
+    <button id="change-background" onclick="setRandomBackground()">تغيير الخلفية</button>
+    <div class="theme-toggle">
+      <button onclick="toggleTheme()">التبديل إلى الوضع الليلي/النهاري</button>
+    </div>
+  </div>
+
+  <script>
+    // script.js
+
+const images = [
+    'imags/s11.jpg',
+    'imags/s12.jpg',
+    'imags/s13.jpg',
+    'imags/s14.jpg',
+    'imags/s15.jpg',
+    'imags/s16.jpg',
+    'imags/s17.jpg'
+  ];
+  
+  // Function to set a random background image
+  function setRandomBackground() {
+    const randomImage = images[Math.floor(Math.random() * images.length)];
+    document.body.style.backgroundImage = `url('${randomImage}')`;
+  }
+  
+  // Preload images
+  function preloadImages() {
+    images.forEach(image => {
+      const img = new Image();
+      img.src = image;
+    });
+  }
+  
+  // Update greeting based on the time of day
+  function setGreeting() {
+    const hour = new Date().getHours();
+    let greeting = '';
+    
+    if (hour < 12) {
+      greeting = 'صباح الخير!';
+    } else if (hour < 18) {
+      greeting = 'مساء الخير!';
+    } else {
+      greeting = 'مساء النور!';
+    }
+  
+    document.getElementById('greeting').textContent = greeting;
+  }
+  
+  // Toggle between light and dark mode
+  function toggleTheme() {
+    const body = document.body;
+    body.classList.toggle('light-mode');
+  }
+  
+  // Initialize page with preload and greeting
+  window.onload = () => {
+    preloadImages(); // Preload images
+    setRandomBackground(); // Set random background image on page load
+    setGreeting(); // Set greeting based on time of day
+  };
+  
+  </script>
+  <script src="script/script.js"></script>
+</body>
+</html>

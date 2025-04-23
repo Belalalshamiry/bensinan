@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>قائمة المهام</title>
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 350px;
+            text-align: center;
+        }
+        h2 {
+            color: #333;
+        }
+        input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        button {
+            padding: 10px 15px;
+            border: none;
+            background: #667eea;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #5648a5;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            background: #f4f4f4;
+            margin-top: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        li:hover {
+            background: #e0e0e0;
+        }
+        .done {
+            text-decoration: line-through;
+            color: gray;
+        }
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .delete-btn:hover {
+            background: darkred;
+        }
+        header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+    </style>
+</head>
+<body>
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="container">
+        <h2>قائمة المهام</h2>
+        <input type="text" id="taskInput" placeholder="أضف مهمة جديدة">
+        <button onclick="addTask()">إضافة</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <script>
+        function addTask() {
+            let input = document.getElementById("taskInput");
+            let taskText = input.value.trim();
+            if (taskText === "") return;
+
+            let li = document.createElement("li");
+            li.innerHTML = `<span onclick="toggleDone(this)">${taskText}</span> <button class="delete-btn" onclick="deleteTask(this)">حذف</button>`;
+            document.getElementById("taskList").appendChild(li);
+            input.value = "";
+        }
+
+        function deleteTask(button) {
+            button.parentElement.remove();
+        }
+
+        function toggleDone(task) {
+            task.classList.toggle("done");
+        }
+    </script>
+</body>
+</html>

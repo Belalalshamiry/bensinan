@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مولد كلمة مرور عشوائية</title>
+    <link rel="stylesheet" href="style/style.css">
+    <style>
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #031336;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 20px;
+}
+
+.password-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#password {
+    width: 200px;
+    padding: 10px;
+    margin-right: 10px;
+    font-size: 16px;
+    text-align: center;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+input[type="number"],
+select {
+    padding: 5px;
+    margin: 10px 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="container">
+        <h2>مولد كلمة مرور عشوائية</h2>
+        <div class="password-container">
+            <input type="text" id="password" readonly>
+            <button id="generate">توليد كلمة مرور</button>
+        </div>
+        <label for="length">طول كلمة المرور:</label>
+        <input type="number" id="length" value="12" min="6" max="20">
+        <label for="complexity">تعقيد كلمة المرور:</label>
+        <select id="complexity">
+            <option value="simple">بسيط (حروف فقط)</option>
+            <option value="medium">معتدل (حروف وأرقام)</option>
+            <option value="high">عالي (حروف وأرقام ورموز)</option>
+        </select>
+        <button id="copy">نسخ إلى الحافظة</button>
+    </div>
+<script>
+  document.getElementById('generate').addEventListener('click', function () {
+    const length = document.getElementById('length').value;
+    const complexity = document.getElementById('complexity').value;
+    const password = generatePassword(length, complexity);
+    document.getElementById('password').value = password;
+});
+
+document.getElementById('copy').addEventListener('click', function () {
+    const passwordField = document.getElementById('password');
+    passwordField.select();
+    document.execCommand('copy');
+    alert('تم نسخ كلمة المرور إلى الحافظة!');
+});
+
+function generatePassword(length, complexity) {
+    const lettersLower = 'abcdefghijklmnopqrstuvwxyz';
+    const lettersUpper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const numbers = '0123456789';
+    const symbols = '!@#$%^&*()-_=+[]{}|;:,.<>?';
+
+    let characters = lettersLower;
+    if (complexity === 'medium') {
+        characters += lettersUpper + numbers;
+    } else if (complexity === 'high') {
+        characters += lettersUpper + numbers + symbols;
+    }
+
+    let password = '';
+    for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        password += characters.charAt(randomIndex);
+    }
+    return password;
+}
+
+</script>
+    <script src="script/script.js"></script>
+</body>
+</html>

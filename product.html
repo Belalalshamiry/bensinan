@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بن سنان للإلكترونيات</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
+    }
+    header {
+      background-color: #230505;
+      color: #ffd700;
+      padding: 1rem;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 0 10px;
+      text-decoration: none;
+    }
+    nav a:hover {
+      color: black;
+      background-color: #f0f0f0;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    .product-card img {
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    .rating {
+      display: flex;
+      gap: 5px;
+      justify-content: center;
+      margin-top: 10px;
+      flex-direction: row;
+    }
+    .star {
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: lightgray;
+    }
+    .star.checked {
+      color: gold;
+      text-shadow: 0 0 5px #ffa500;
+    }
+    .notification {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: #198754;
+      color: white;
+      padding: 10px;
+      border-radius: 5px;
+      display: none;
+      z-index: 9999;
+    }
+    .filter-bar {
+      margin: 20px 0;
+    }
+    .sl{
+   margin-left: 2000px;
+      object-position:right;
+    }
+  </style>
+ 
+</head>
+<body>
+  <header>
+    <h1>بن سنان للإلكترونيات</h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="product.html">المنتجات</a>
+      <a href="cart.html">السلة</a>
+      <a href="contact.html">تواصل معنا</a>
+      <a href="login1.html">تسجيل الدخول</a>
+      <a href="login.html"> إطلب الأن</a>
+    </nav>
+    <div class="cart-icon">
+      <button id="sl" class="btn btn-warning position-relative" onclick="showCart()">
+        🛒 السلة <span class="badge bg-danger" id="cart-count">0</span>
+      </button>
+    </div>
+    <div id="user-info" class="mt-2"></div>
+    <div id="g_id_signin"></div>
+  </header>
+
+  <main class="container my-4">
+    <div class="notification" id="notification"></div>
+
+    <div class="filter-bar row">
+      <div class="col-md-6">
+        <select id="filter-type" class="form-select">
+          <option value="">كل الأنواع</option>
+          <option value="جوال">جوال</option>
+          <option value="أجهزة">أجهزة</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <input type="range" id="price-range" min="0" max="2000" step="100" class="form-range">
+        <label for="price-range">السعر حتى <span id="price-value">2000</span> ريال</label>
+      </div>
+    </div>
+
+    <div class="row" id="product-list"></div>
+  </main>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <script>
+    const products = [
+      { id: 1, name: "Samsung A14", image: "imags/s12.jpg", price: 500, type: "جوال" },
+      { id: 2, name: "iPhone X", image: "imags/s14.jpg", price: 900, type: "جوال" },
+      { id: 3, name: "جهاز ستارلينك", image: "imags/ss6.jpg", price: 1500, type: "أجهزة" },
+    ];
+
+    const productList = document.getElementById("product-list");
+    const filterType = document.getElementById("filter-type");
+    const priceRange = document.getElementById("price-range");
+    const priceValue = document.getElementById("price-value");
+
+    function showNotification(message) {
+      const notif = document.getElementById("notification");
+      notif.textContent = message;
+      notif.style.display = 'block';
+      setTimeout(() => notif.style.display = 'none', 3000);
+    }
+
+    function addToCart(productId) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const product = products.find(p => p.id === productId);
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      showNotification("تمت إضافة المنتج إلى السلة");
+    }
+
+    function renderProducts() {
+      const type = filterType.value;
+      const maxPrice = priceRange.value;
+      const filtered = products.filter(p => {
+        return (!type || p.type === type) && p.price <= maxPrice;
+      });
+
+      productList.innerHTML = filtered.map(product => `
+        <div class="col-md-4">
+          <div class="product-card card mb-4">
+            <img src="${product.image}" onclick="viewDetails(${product.id})" class="card-img-top" alt="${product.name}">
+            <div class="card-body">
+              <h5 class="card-title">${product.name}</h5>
+              <p class="card-text">السعر: ${product.price} ريال</p>
+              <div class="rating" data-id="${product.id}">
+                ${'<span class="star">★</span>'.repeat(5)}
+              </div>
+              <button class="btn btn-warning mt-2" onclick="addToCart(${product.id})">أضف للسلة</button>
+            </div>
+          </div>
+        </div>
+      `).join("");
+      addRatingEvents();
+    }
+
+    function viewDetails(id) {
+      const product = products.find(p => p.id === id);
+      window.location.href = `product-details.html?id=${product.id}`;
+    }
+
+    function addRatingEvents() {
+      document.querySelectorAll('.rating').forEach(container => {
+        const stars = container.querySelectorAll('.star');
+        stars.forEach((star, index) => {
+          star.addEventListener('click', () => {
+            stars.forEach((s, i) => {
+              s.classList.toggle('checked', i <= index);
+            });
+          });
+        });
+      });
+    }
+
+    filterType.addEventListener('change', renderProducts);
+    priceRange.addEventListener('input', () => {
+      priceValue.textContent = priceRange.value;
+      renderProducts();
+    });
+
+    renderProducts();
+
+
+ 
+    function handleCredentialResponse(response) {
+      const data = parseJwt(response.credential);
+      localStorage.setItem('user', JSON.stringify({ email: data.email, name: data.name }));
+      document.getElementById('user-info').innerHTML = `أهلاً ${data.name}`;
+    }
+
+    function parseJwt(token) {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(c => {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    }
+
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: "653124413861-3r1fuf4pjqqmb3lbvfngq58f23jv0dvf.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
+      google.accounts.id.renderButton(
+        document.getElementById("g_id_signin"),
+        { theme: "outline", size: "large" }
+      );
+      google.accounts.id.prompt();
+    };
+
+
+
+    
+
+    
+ 
+  </script>
+</body>
+</html>

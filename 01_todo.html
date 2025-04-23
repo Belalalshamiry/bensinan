@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة مؤشر كتلة الجسم</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f9e9a7;
+            direction: rtl;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .container {
+            background: rgb(25, 92, 155);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        input, select, button {
+            margin: 10px 0;
+            padding: 10px;
+            width: 100%;
+        }
+        .result {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        header {
+  background-color: #2c0a0a;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+        <nav>
+          <a href="indexm.html">الرئيسية</a>
+          <a href="page4.html">المنتجات</a>
+          <a href="index133.html">العروض الخاصة</a>
+          <a href="m1.html">قائمة المهام اليومية</a>
+          <a href="index150.html">قائمة الأدوات</a>
+          <a href="login.html"> إطلب الأن</a>
+          <a href="login/index3.html">  تسجيل الدخول</a>
+          <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+        </nav>
+      </header>
+    <div class="container">
+        <h2>حاسبة مؤشر كتلة الجسم</h2>
+        <form id="bmi-form">
+            <label for="height">الطول:</label>
+            <input type="number" id="height" placeholder="أدخل الطول" required>
+            <label for="weight">الوزن:</label>
+            <input type="number" id="weight" placeholder="أدخل الوزن" required>
+            <label for="unit">اختر الوحدة:</label>
+            <select id="unit">
+                <option value="metric">متري (كجم، متر)</option>
+                <option value="imperial">إمبراطوري (رطل، بوصة)</option>
+            </select>
+            <button type="submit">احسب مؤشر كتلة الجسم</button>
+        </form>
+        <p class="result" id="bmi-result"></p>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("bmi-form");
+            const result = document.getElementById("bmi-result");
+            
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
+                
+                const height = parseFloat(document.getElementById("height").value);
+                const weight = parseFloat(document.getElementById("weight").value);
+                const unit = document.getElementById("unit").value;
+                
+                if (isNaN(height) || isNaN(weight) || height <= 0 || weight <= 0) {
+                    result.textContent = "يرجى إدخال أرقام صحيحة موجبة للطول والوزن.";
+                    return;
+                }
+                
+                let bmi;
+                if (unit === "metric") {
+                    bmi = weight / (height * height);
+                } else {
+                    bmi = (weight / (height * height)) * 703;
+                }
+                
+                let category;
+                if (bmi < 18.5) {
+                    category = "نحافة";
+                } else if (bmi < 24.9) {
+                    category = "وزن طبيعي";
+                } else if (bmi < 29.9) {
+                    category = "زيادة في الوزن";
+                } else {
+                    category = "سمنة";
+                }
+                
+                result.textContent = `مؤشر كتلة جسمك: ${bmi.toFixed(2)} (${category})`;
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بن سنان للإلكترونيات</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles/belal.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+
+  <style>
+ .clock {
+  font-size: 4rem;
+  background: rgb(30, 6, 6);
+  padding: 20px 50px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(182, 175, 175, 0.5);
+  text-align: center;
+  letter-spacing: 2px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+
+  color: white;
+}
+    .promo-img, .promo-video {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+    .product-card {
+      text-align: center;
+    }
+    .product-card img {
+      max-width: 100%;
+      border-radius: 15px;
+    }
+    .button {
+      background-color: darkorange;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    footer {
+      background-color: #212529;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+    .rating {
+      color: gold;
+    }
+    .slider-container .slider .slide .prev .next .dots-container .active .dot{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.slider {
+    position: relative;
+    width: 100%;
+    max-width: 900px;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 11rem ;
+    padding: 0;
+    height: 400px;
+    transition: 1ms;
+    background: linear-gradient(to bottom right, #f0f0f0, #f8f8f8);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* .slider {
+  width: 100%;
+    display: flex;
+height: 10%;
+    align-content: center;
+} */
+.mt-3{
+  width: 0;
+}
+ .imags {
+ 
+width: 100%;
+
+    align-content: center;
+}
+
+button {
+    position:relative;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    font-size: 30px;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.prev {
+    left: 15px;
+    position: absolute;
+}
+
+.next {
+    right: 15px;
+    position: absolute;
+}
+
+.dots-container {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.dot:hover {
+    background-color: #717171;
+}
+
+.active {
+    background-color: #333;
+}
+.slider{
+
+  border: #333 solid 20px ;
+  
+}
+#i1{
+  width: 30rem;
+  height: 20rem;
+}
+
+#btn{
+  position: relative;
+}
+#btn1{
+ margin-right: 320px;
+ 
+}
+#imageModal{
+  display: flex;
+  flex-direction:column;
+flex-wrap: wrap;
+justify-content: center;
+justify-content: space-around;
+}
+.card1{width: 30%; background-color: #1a0207; color: white;}
+.card2{width: 30%; background-color: #1f0505; color: white;}
+.card3{width: 30%; background-color: #210e11; color: white;}
+
+  </style>
+</head>
+<body>
+  <div class="clock" id="clock">00:00:00</div>
+  <header>
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+<div>
+  <h2>حالة الطقس</h2>
+  <div id="weather-box" class="alert alert-info mt-4">جاري التحميل...</div>
+
+</div>
+  <main class="container my-4">
+    <div class="search-box">
+      <input type="text"  id="searchInput" class="form-control" placeholder="ابحث عن منتج...">
+      <button id="btn1"  class="btn btn-outline-secondary">بحث</button>
+      <ul id="suggestionsList"></ul>
+    </div>
+
+    <section  class="text-center mb-5">
+      <img src="imags/ss0.jpg" class="promo-img" alt="عرض الساعة">
+      <h3>ساعات مشكلة عدد 1000 حبة بسعر 21 ريال فقط!
+        <a href="login.html" class="btn btn-warning" >اطلب الآن</a>
+      </h3>
+      <video id="d1" class="promo-video" controls autoplay muted>
+        <source src="vedio/ss7.mp4" type="video/mp4">
+      </video>
+    </section>
+
+
+  <!-- سلايدر الصور -->
+  <div class="slider text-center">
+    <img id="imags" class="img-fluid rounded shadow" src="https://via.placeholder.com/800x300?text=صورة+1" alt="Slide">
+    <div class="mt-3">
+      <button class="prev" onclick="moveSlide(-1)" class="btn btn-outline-primary">&#10094;</button>
+      <button class="next" onclick="moveSlide(1)" class="btn btn-outline-primary">&#10095;</button>
+    </div>
+    <div class="dots-container">
+      <span class="dot" onclick="currentSlide(0)"></span>
+      <span class="dot" onclick="currentSlide(1)"></span>
+      <span class="dot" onclick="currentSlide(2)"></span>
+      <span class="dot" onclick="currentSlide(3)"></span>
+      <span class="dot" onclick="currentSlide(4)"></span>
+    </div>
+  </div>
+  
+
+
+
+
+
+
+      <h2 class="text-center">قسم الجوالات</h2>
+   
+
+
+    <div id="con" class="col-md-4" >
+      <div class="card1">
+        <img id="productImage1" src="imags/s22.jpg" class="card-img-top" alt="منتج 1" onclick="openImage(this)">
+        <div class="card-body">
+          <h5 class="card-title">هاتف ذكي</h5>
+          <div class="stars" data-product="1">
+            <span class="star" onclick="rate(this, 1)">&#9733;</span>
+            <span class="star" onclick="rate(this, 2)">&#9733;</span>
+            <span class="star" onclick="rate(this, 3)">&#9733;</span>
+            <span class="star" onclick="rate(this, 4)">&#9733;</span>
+            <span class="star" onclick="rate(this, 5)">&#9733;</span>
+          </div>
+        </div>
+        </div>
+        <div class="card2">
+    
+    <img id="productImage1" src="imags/s13.jpg" class="card-img-top" alt="منتج 1" onclick="openImage(this)">
+    <div class="card-body">
+      <h5 class="card-title">هاتف ذكي</h5>
+      <div class="stars" data-product="2">
+        <span class="star" onclick="rate(this, 1)">&#9733;</span>
+        <span class="star" onclick="rate(this, 2)">&#9733;</span>
+        <span class="star" onclick="rate(this, 3)">&#9733;</span>
+        <span class="star" onclick="rate(this, 4)">&#9733;</span>
+        <span class="star" onclick="rate(this, 5)">&#9733;</span>
+      </div>
+    </div>
+</div>
+<div class="card3">
+  <img id="productImage1" src="imags/s13.jpg" class="card-img-top" alt="منتج 1" onclick="openImage(this)">
+  <div class="card-body">
+    <h5 class="card-title">هاتف ذكي</h5>
+    <div class="stars" data-product="3">
+      <span class="star" onclick="rate(this, 1)">&#9733;</span>
+      <span class="star" onclick="rate(this, 2)">&#9733;</span>
+      <span class="star" onclick="rate(this, 3)">&#9733;</span>
+      <span class="star" onclick="rate(this, 4)">&#9733;</span>
+      <span class="star" onclick="rate(this, 5)">&#9733;</span>
+    </div>
+  </div>
+</div>
+
+  <!---->
+  </div>
+        </div>
+    
+    
+      <div id="imageModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;">
+<img src="imags/s11.jpg" id="i1"  alt="">
+<img src="imags/s12.jpg" id="i1"  alt="">
+<img src="imags/s23.jpg" id="i1"  alt="">
+<img src="imags/s15.jpg" id="i1"  alt="">
+<img src="imags/s16.jpg" id="i1"  alt="">
+<img src="imags/s19.jpg" id="i1"  alt="">
+      </div>
+      <button id="btn" class="btn btn-info view-image" data-img="imags/s12.jpg">عرض المزيد</button>
+
+
+   
+
+
+
+    <section class="text-center mb-5">
+      <h4>جهاز ستارلينك الجيل الثالث متوفر الآن</h4>
+      <img src="imags/ss6.jpg" alt="ستارلينك" class="promo-img">
+      <h3>الحق الفرصة واطلب الآن!
+        <a href="login.html" class="btn btn-danger">اطلب الآن</a>
+      </h3>
+    </section>
+    
+
+ 
+    <!-- <div id="imageModal" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.8); justify-content:center; align-items:center; z-index:1000;"> -->
+      <img id="modalImg" src="imags/g1.png" style="max-width:90%; max-height:90%; border-radius:15px;">
+    </div>
+    <section id="s1" class="text-center mb-5">
+      <h2>العروض الخاصة</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>الجهاز</th><th>الوصف</th><th>السعر قبل</th><th>السعر بعد</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><img src="imags/s2.jpg" width="100"></td>
+              <td>كمبيوتر</td>
+              <td><del>14400</del></td>
+              <td><mark>15700</mark></td>
+            </tr>
+            <tr>
+              <td><img src="imags/s10.jpg" width="100"></td>
+              <td>كومبليت</td>
+              <td><del>14400</del></td>
+              <td><mark>15700</mark></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <a href="index133.html" class="btn btn-outline-primary">انتقل إلى قائمة العروض الخاصة</a>
+    </section>
+
+    <section id="footer" class="mb-5">
+      <div class="con3">
+      <h3 class="text-center">إنشاء حساب</h3>
+      <form class="row g-3">
+        <div class="col-md-6">
+          <label for="name" class="form-label">الاسم</label>
+          <input type="text" class="form-control" id="name" placeholder="أدخل اسمك">
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">البريد الإلكتروني</label>
+          <input type="email" class="form-control" id="email" placeholder="example@mail.com">
+        </div>
+        <div class="col-12 container">
+          <label for="feedback" class="form-label">تعليقك</label>
+          <textarea class="form-control" cols="40" id="text-input" rows="4" placeholder="اكتب تعليقك هنا"></textarea>
+          <div id="char-count">0 / 100</div>
+
+        </div>
+        <div class="col-12 text-center">
+          <button id="btn" type="submit" class="btn btn-success">إرسال</button>
+        </div>
+      </form>
+      </div>
+    </section>
+  </main>
+
+<div class="cont">
+  <div class="container1">
+    <h1 class="h1"> هل كانت تجربتك ممتعه في الموقع  ام لا اترك لنا ملاحظتك  هنا  </h1>
+    <textarea class="textarea" id="note-input" placeholder="اكتب ملاحظتك هنا..."></textarea>
+    <button class="button" id="save-btn">حفظ الملاحظة</button>
+    <div id="notes-container"></div>
+    <div class="footer">
+        <p>عدد الملاحظات: <span id="notes-count">0</span></p>
+        <!-- <button class="button" id="clear-all-btn">مسح جميع الملاحظات</button> -->
+    </div>
+</div>
+</div>
+  <footer>
+    <p>خدماتنا:</p>
+    <ul class="list-unstyled">
+      <li>التوصيل المجاني لجميع المحافظات</li>
+      <li>بيع وشراء الأجهزة الإلكترونية</li>
+      <li>بيع جملة وتجزئة</li>
+    </ul>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>

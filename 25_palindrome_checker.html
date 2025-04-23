@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نموذج الإدخال مع حفظ البيانات</title>
+  <link rel="stylesheet" href="style/style.css">
+</head>
+<style>
+  /* General reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  body {
+    background-color: #f4f4f9;
+    color: #333;
+    font-size: 16px;
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .container {
+    max-width: 500px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #34495e;
+    display: block;
+    margin-bottom: 8px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  input:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+  }
+  
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.1rem;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #2980b9;
+  }
+  
+  button:active {
+    background-color: #1f6f8b;
+  }
+  
+  @media (max-width: 600px) {
+    .container {
+      width: 90%;
+    }
+  }
+  header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+}
+</style>
+<body>
+  <header>
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+  <div class="container">
+    <h1>نموذج الإدخال</h1>
+    <form id="userForm">
+      <div class="form-group">
+        <label for="name">الاسم:</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">البريد الإلكتروني:</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <button type="submit" class="btn">حفظ البيانات</button>
+    </form>
+  </div>
+  <script src="script/script.js"></script>
+</body>
+<script>
+  // Check if there's any saved data in localStorage and populate the form
+window.onload = function() {
+    if (localStorage.getItem('name')) {
+      document.getElementById('name').value = localStorage.getItem('name');
+    }
+    if (localStorage.getItem('email')) {
+      document.getElementById('email').value = localStorage.getItem('email');
+    }
+  };
+  
+  // Save form data in localStorage when the form is submitted
+  document.getElementById('userForm').onsubmit = function(event) {
+    event.preventDefault(); // Prevent form submission to keep page from refreshing
+  
+    // Save user input to localStorage
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+  
+    // Simple validation
+    if (!name || !email) {
+      alert("من فضلك، قم بملء جميع الحقول.");
+      return;
+    }
+  
+    // Simple email validation
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailPattern.test(email)) {
+      alert("من فضلك، أدخل بريد إلكتروني صالح.");
+      return;
+    }
+  
+    localStorage.setItem('name', name);
+    localStorage.setItem('email', email);
+  
+    alert('تم حفظ البيانات بنجاح!');
+  };
+  
+  // Optional: Clear localStorage if needed (e.g., after submitting the form or when the user clicks a "clear" button)
+  function clearForm() {
+    localStorage.removeItem('name');
+    localStorage.removeItem('email');
+    document.getElementById('userForm').reset();
+  }
+  
+</script>
+</html>

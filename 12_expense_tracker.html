@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>آلة حاسبة متطورة</title>
+  <link rel="stylesheet" href="style/style.css">
+
+  <style>
+    * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #056084;
+    transition: background-color 0.3s ease;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+  
+  .calculator {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .calculator.dark {
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  input[type="text"] {
+    width: 100%;
+    padding: 15px;
+    font-size: 24px;
+    text-align: right;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    background-color: #f9f9f9;
+  }
+  
+  input[type="text"].dark {
+    background-color: #444;
+    color: #fff;
+    border-color: #666;
+  }
+  
+  button {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    font-size: 22px;
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #ddd;
+    transform: scale(1.1);
+  }
+  
+  button:active {
+    background-color: #bbb;
+  }
+  
+  button.dark {
+    background-color: #666;
+    color: #fff;
+    border-color: #444;
+  }
+  
+  button.dark:hover {
+    background-color: #555;
+  }
+  
+  button.theme-toggle {
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button.theme-toggle:hover {
+    background-color: #ddd;
+  }
+  
+  button.theme-toggle:active {
+    background-color: #bbb;
+  }
+  header {
+  background-color: #230505;
+  color: #ffd700;
+  padding: 1rem;
+  text-align: center;
+}
+header h1 marquee {
+  font-size: 1.5rem;
+  font-family: 'Cairo', sans-serif;
+}
+nav a {
+  color: white;
+  margin: 0 10px;
+  text-decoration: none;
+
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  background-color: #f0f0f0;
+  margin: 5px 10px;
+  text-decoration: none;
+  text-shadow: #fcfcfc  2px 15px 18px ;
+} 
+  
+  </style>
+</head>
+<body>
+  <header>
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="page4.html">المنتجات</a>
+      <a href="index133.html">العروض الخاصة</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="login.html"> إطلب الأن</a>
+      <a href="login/index3.html">  تسجيل الدخول</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+  <div class="calculator">
+    <input type="text" id="result" disabled />
+    <div class="buttons">
+      <button onclick="appendNumber(7)">7</button>
+      <button onclick="appendNumber(8)">8</button>
+      <button onclick="appendNumber(9)">9</button>
+      <button onclick="appendOperator('+')">+</button>
+
+      <button onclick="appendNumber(4)">4</button>
+      <button onclick="appendNumber(5)">5</button>
+      <button onclick="appendNumber(6)">6</button>
+      <button onclick="appendOperator('-')">-</button>
+
+      <button onclick="appendNumber(1)">1</button>
+      <button onclick="appendNumber(2)">2</button>
+      <button onclick="appendNumber(3)">3</button>
+      <button onclick="appendOperator('*')">×</button>
+
+      <button onclick="appendNumber(0)">0</button>
+      <button onclick="clearResult()">C</button>
+      <button onclick="calculateResult()">=</button>
+      <button onclick="appendOperator('/')">÷</button>
+    </div>
+    <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+  </div>
+<script>
+  let currentInput = "";
+
+function appendNumber(number) {
+  currentInput += number;
+  document.getElementById("result").value = currentInput;
+}
+
+function appendOperator(operator) {
+  currentInput += " " + operator + " ";
+  document.getElementById("result").value = currentInput;
+}
+
+function clearResult() {
+  currentInput = "";
+  document.getElementById("result").value = "";
+}
+
+function calculateResult() {
+  try {
+    currentInput = eval(currentInput).toString();
+    document.getElementById("result").value = currentInput;
+  } catch (error) {
+    document.getElementById("result").value = "خطأ";
+    currentInput = "";
+  }
+}
+
+function toggleTheme() {
+  const calculator = document.querySelector('.calculator');
+  const inputField = document.getElementById('result');
+  const buttons = document.querySelectorAll('button');
+
+  calculator.classList.toggle('dark');
+  inputField.classList.toggle('dark');
+  buttons.forEach(button => button.classList.toggle('dark'));
+  document.querySelector('.theme-toggle').classList.toggle('dark');
+}
+
+</script>
+  <script src="script/script.js"></script>
+</body>
+</html>
