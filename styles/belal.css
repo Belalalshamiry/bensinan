@@ -316,7 +316,7 @@ nav a {
   color: white;
   margin: 0 10px;
   text-decoration: none;
-  margin: 3px;
+  margin: 1px;
 padding: 1vh;
 }
 nav{
@@ -325,7 +325,7 @@ nav{
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
-  justify-content: space-around;
+  justify-content:space-between;
 }
 nav a:hover {
   color: rgb(0, 0, 0);
