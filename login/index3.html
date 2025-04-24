@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="all.min.css">
+    <link rel="stylesheet" href="/styles/belal.css">
+    <style>
+
+        
+
+a {
+    background-color: #000000;
+  text-decoration: none;
+  color: #ffffff;
+  transition: 0.3s ease;
+}
+
+a:hover {
+  color: #ff5722;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
+h1{
+    color: #8e6e17;
+}
+.header {
+  text-align: center;
+  padding: 20px;
+  margin: top 0;
+  margin:40px 400px ;
+  background-color: #180909;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  position:relative;
+}
+        body{
+            background-color: rgb(180, 162, 140);
+        }
+        .card{
+            width: 500px;
+            margin:50px auto;
+        }
+        .error{
+            color:#f00;
+            display: none;
+        }
+        .form-control .is-invalid{
+            border-color:#ff2323;
+        }
+        .form-control .is-valid{
+            border-color: #12ff12;
+        }
+        #preview{
+            height: 100px;
+            width: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 10px 0;
+        }
+        #btn{
+            position: absolute;
+            right: 3.5rem;
+        top:19.5rem;
+        cursor: pointer;
+        
+        }
+        #btn1{
+            position: absolute;
+            right: 3.5rem;
+            top:24.8rem;
+            cursor: pointer;
+        }
+        #btnc{
+            opacity: 0;
+        }
+
+        
+        .login-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .login-btn {
+            background-color: #4285F4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .login-btn:hover {
+            background-color: #357ae8;
+            margin:0;
+        }
+        .con3{
+            
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+        }
+    </style>
+</head>
+<body>
+<header class="header">
+    <h1><marquee>بن سنان للأجهزة والإلكترونيات</marquee></h1>
+    <nav>
+      <a href="indexm.html">الرئيسية</a>
+      <a href="product.html">المنتجات</a>
+      <a href="login/index3.html"> إطلب الأن</a>
+      <a href="m1.html">قائمة المهام اليومية</a>
+      <a href="index150.html">قائمة الأدوات</a>
+      <a href="https://wa.me/qr/WEMTROF7YR3YI1">اتصل بنا</a>
+    </nav>
+  </header>
+  
+    <div class="container">
+        <div class="card p-5">
+            <h2 class="text-center text-primary mb-3">انشاء حساب</h2>
+            <form action="" method="post" class="text-center" id="signupForm" enctype="multipart/form-data">
+                <div class="mb-3">  
+                    <label for="" class="form-label">ادخل الاسم الثلاثي مع اللقب</label>
+                    <input type="text" name="name" id="textInput" class="form-control">
+                    <span class="error" id="error">يجب ان يحتوي على حروف وليس ارقام</span>
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">ادخل الايميل</label>
+                    <input type="email" name="email" id="" class="form-control" placeholder="@">
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">ادخل كلمة السر</label>
+                    <input type="password" name="password" id="password" placeholder="*****" class="form-control"  onfocus="generatePassword()">
+                    <span id="btn"><i class="fa-solid fa-eye"></i></span>
+                    <span id="btnc">كمله السر ضعيف</span>
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">تاكيد كلمة السر</label>
+                    <input type="password" name="rpassword" id="rpassword" class="form-control" placeholder="******">
+                    <span id="btn1"><i class="fa-solid fa-eye"></i></span>
+                    
+                    <div class="invalid-feedback">
+                        كلمه السر غير متطابقة   
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">تاريخ  الميلاد</label>
+                    <input type="date" max="2005-12-31" name="date" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="" class="form-label">الصوره الشخصية</label>
+                    <input type="file" name="profilePicture" id="profilePicture" class="form-control">
+                    <img src="" id="preview" alt="preview picture" class="d-none">
+                </div>
+                <input type="submit" value="ارسال" class="btn btn-warning w-50">
+            </form>
+        </div>
+    </div>
+    <script src="all.min.js"></script>
+    <script src="bootstrap.bundle.min.js"></script>
+    <script src="java.js"></script>
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+<div class="con3">
+
+    <div class="login-container">
+     
+        <button class="login-btn" id="google-login">تسجيل الدخول باستخدام Gmail</button>
+    </div>
+</div>
+    <script>
+    const CLIENT_ID = '653124413861-3r1fuf4pjqqmb3lbvfngq58f23jv0dvf.apps.googleusercontent.com';
+const REDIRECT_URI = 'http://127.0.0.1:8080/';
+
+document.getElementById('google-login').addEventListener('click', () => {
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&scope=email profile openid`;
+    window.location.href = authUrl;
+});
+
+    </script>
+    </body>
+    </html>
