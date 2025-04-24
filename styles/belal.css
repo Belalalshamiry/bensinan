@@ -185,10 +185,10 @@ form input[type="submit"]:hover {
   .product-card {
     width: 100%;
   }
-  .slider{
-    width: 100%;
-
+    .slider{
+    min-width: 30%;
   }
+  
 }
 /* 🔍 مربع البحث */
 .search-box {
@@ -226,13 +226,7 @@ form input[type="submit"]:hover {
 }
 
 
-.slider {
-  width: 100%;
-  margin: auto;
-  overflow: hidden;
-  position: relative;
-  height: 300px;
-}
+
 
 
 
