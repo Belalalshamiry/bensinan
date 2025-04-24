@@ -240,13 +240,14 @@ a:hover{
   width: 100px;
 }
 a{
-  transition: 4.s;
 
-  background-color: black;
+  border-radius: 17px ;
+  padding: 5px;
+  transition: 4.s;
+height: auto;
+  background-color: rgb(113, 86, 4);
   color: aliceblue;
   font-size: large;
-
- 
 }
 
 #cont {
