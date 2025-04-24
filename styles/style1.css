@@ -1,0 +1,25 @@
+h1{
+    color: rgb(221, 255, 0);
+    text-align: center;            
+}
+p{
+    color: brown;
+    background-color: darksalmon;
+    text-align: justify;
+}
+table{
+	border-collapse:collapse;
+	caption-side:top;
+}
+tr:hover{
+	background:red;
+}
+body{
+    background-color: antiquewhite;
+    background-image: url("images/1.png");
+    background-repeat: repeat-y;
+    background-position: center;
+    background-attachment: fixed;
+    background-size:contain;
+    
+}
